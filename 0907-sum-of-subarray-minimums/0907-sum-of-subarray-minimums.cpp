@@ -24,6 +24,8 @@ public:
         stack<int>st;
         vector<int>ans;
         for(int i = 0; i < n; ++i) {
+            // we need to take duplicate into consideration 
+            //-----------------------------------------------------------------------
             while(!st.empty() && arr[st.top()] > arr[i]) {
                 st.pop();
             }
