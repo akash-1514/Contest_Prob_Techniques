@@ -22,10 +22,10 @@ public:
         
         if(dp[idx] != -1) return dp[idx];
         
-        // vector<int>v = {intervals[idx][1], 0};
-        // auto i = lower_bound(intervals.begin(), intervals.end(), v) - intervals.begin();
+        vector<int>v = {intervals[idx][1], INT_MIN};
+        auto i = lower_bound(intervals.begin(), intervals.end(), v) - intervals.begin();
         
-        auto i = bs(intervals, intervals[idx][1]);
+        // auto i = bs(intervals, intervals[idx][1]);
         
         int mx = 0;
         mx = max(mx, 1 + helper(intervals, i));
