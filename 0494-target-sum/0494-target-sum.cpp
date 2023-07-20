@@ -2,8 +2,11 @@ class Solution {
 public:
     vector<vector<int>>dp;
     int helper(vector<int>&nums, int idx, int k) {
-        if(idx >= nums.size()) {
-            if(k == 0) return 1;
+        if(idx == nums.size() - 1) {
+            if(k == 0) {
+                if(nums[idx] == 0) return 2;
+                else return 1;
+            } else if(nums[idx] == k) return 1;
             return 0;
         }
         if(dp[idx][k] != -1) return dp[idx][k];
