@@ -12,7 +12,7 @@ public:
         return time <= hour;
     }
     int minSpeedOnTime(vector<int>& dist, double hour) {
-        int low = 1, high = 1e9, ans = -1;
+        int low = 1, high = 1e7, ans = -1;
         while(low <= high) {
             int mid = (low + high) >> 1;
             cout << mid << endl;
