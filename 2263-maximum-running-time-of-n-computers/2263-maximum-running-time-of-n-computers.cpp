@@ -8,7 +8,8 @@ public:
         return (sum / n) >= time;
     }
     long long maxRunTime(int n, vector<int>& batteries) {
-        long long low = 1, high = 1e15, ans = 1;
+        long long low = 1, high = 0, ans = 1;
+        for(int ele : batteries) high += ele;
         while(low <= high) {
             long long mid = low + (high - low) / 2;
             if(pred(n, batteries, mid)) {
