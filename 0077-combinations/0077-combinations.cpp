@@ -9,11 +9,11 @@ public:
             return;
         }
         
-        for(int i = idx; i <= n; ++i) {
-            res.push_back(i);
-            helper(n, k - 1, i + 1, res, ans);
-            res.pop_back();
-        }
+        res.push_back(idx);
+        helper(n, k - 1, idx + 1, res, ans);
+        res.pop_back();
+        
+        helper(n, k, idx + 1, res, ans);
     }
     vector<vector<int>> combine(int n, int k) {
         vector<vector<int>>ans;
