@@ -1,20 +1,25 @@
 class Solution {
 public:
     vector<vector<int>>ans;
-    void helper(vector<int>&arr, int idx) {
-        if(idx >= arr.size()) {
-            ans.push_back(arr);
+    vector<int> op;
+    unordered_map<int, int>mp;
+    void helper(vector<int>&arr) {
+        if(op.size() == arr.size()) {
+            ans.push_back(op);
             return;
         }
         
-        for(int i = idx; i < arr.size(); ++i) {
-            swap(arr[i], arr[idx]);
-            helper(arr, idx + 1);
-            swap(arr[i], arr[idx]);
+        for(int i = 0; i < arr.size(); ++i) {
+            if(mp[arr[i]] > 0) continue;
+            mp[arr[i]]++;
+            op.push_back(arr[i]);
+            helper(arr);
+            op.pop_back();
+            mp[arr[i]]--;
         }
     }
     vector<vector<int>> permute(vector<int>& nums) {
-        helper(nums, 0);
+        helper(nums);
         return ans;
     }
 };
