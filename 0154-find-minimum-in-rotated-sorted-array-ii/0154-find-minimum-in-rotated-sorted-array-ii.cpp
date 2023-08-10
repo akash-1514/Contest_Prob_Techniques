@@ -8,6 +8,9 @@ public:
             if(arr[mid] == arr[low] && arr[mid] == arr[high]) {
                 ans = min(ans, arr[mid]);
                 low++, high--;
+            } else if(arr[low] <= arr[mid] && arr[mid] <= arr[high]) {
+                ans = min(ans, arr[low]);
+                break;
             } else if(arr[low] <= arr[mid]) {
                 ans = min(ans, arr[low]);
                 low = mid + 1;
