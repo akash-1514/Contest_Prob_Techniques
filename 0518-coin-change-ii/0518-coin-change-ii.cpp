@@ -1,23 +1,21 @@
 class Solution {
 public:
-    vector<vector<int>>dp;
-    int helper(vector<int>&coins, int idx, int amount) {
-        if(idx >= coins.size()) {
-            return amount == 0;
-        }
-        
+    int dp[301][5001];
+    int helper(vector<int>&arr, int idx, int amount) {
+        if(amount == 0) return 1;
+        if(idx >= arr.size()) return 0;
+
         if(dp[idx][amount] != -1) return dp[idx][amount];
-        
-        int cnt = 0;
-        if(coins[idx] <= amount) {
-            cnt += helper(coins, idx, amount - coins[idx]);
-        }
-        cnt += helper(coins, idx + 1, amount);
-        return dp[idx][amount] = cnt;
+
+        int pick = 0;
+        if(arr[idx] <= amount) {
+            pick = helper(arr, idx, amount - arr[idx]);
+        } 
+        int notPick = helper(arr, idx + 1, amount);
+        return dp[idx][amount] = pick + notPick;
     }
     int change(int amount, vector<int>& coins) {
-        int n = coins.size();
-        dp.resize(n, vector<int>(amount + 1, -1));
+        memset(dp, -1, sizeof(dp));
         return helper(coins, 0, amount);
     }
 };
