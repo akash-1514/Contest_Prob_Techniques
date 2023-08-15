@@ -1,24 +1,36 @@
 class SummaryRanges {
 public:
-    set<int>st;
+    map<int, int>mp;
     SummaryRanges() {
         
     }
     
     void addNum(int value) {
-        st.insert(value);
+        int left = value, right = value;
+        auto upper = mp.upper_bound(value);
+        if(upper != mp.begin()) {
+            auto it = upper;
+            it--;
+            if(it->second >= value) return;
+            if(it->second == value - 1) {
+                left = it->first;
+            }
+        }
+
+        if(upper != mp.end()) {
+            if(upper->first == value + 1) {
+                right = upper->second;
+                mp.erase(upper);
+            }
+        }
+
+        mp[left] = right;
     }
     
     vector<vector<int>> getIntervals() {
-        vector<int>vec;
         vector<vector<int>>ans;
-        for(auto &it : st) vec.push_back(it);
-        for(int i = 0; i < vec.size();) {
-            int left = vec[i], right = vec[i];
-            while(i < vec.size() && right == vec[i]) {
-                i++, right++;
-            }
-            ans.push_back({left, right - 1});
+        for(auto &it : mp) {
+            ans.push_back({it.first, it.second});
         }
         return ans;
     }
