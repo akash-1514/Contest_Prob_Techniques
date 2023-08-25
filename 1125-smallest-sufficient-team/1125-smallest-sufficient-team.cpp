@@ -1,61 +1,57 @@
 class Solution {
 public:
-
-vector<int>res;
-
-void helper(int i,vector<int>&people_skill,int m,int mask,vector<int>&ans,vector<vector<int>>&dp)
-{
-  if(i == people_skill.size()) //Base Case
-  {
-    if(mask == ((1<<m)-1)) //Check for all req_skills included
-    {
-      if(res.size() == 0 || (ans.size() < res.size())) res = ans; //better ans then update
-    }
-    return;
-  }
-
-  if(dp[i][mask] != -1) //Memoization Part
-  {
-    if(dp[i][mask] <= ans.size()) return;
-  }
-
-  helper(i+1,people_skill,m,mask,ans,dp); //Non-Pick / Ignore Case
-
-  ans.push_back(i); // Pick Case
-
-  helper(i+1,people_skill,m,(mask|people_skill[i]),ans,dp); //Next Call
-
-  ans.pop_back(); //Undo the change in Pick
-
-  if(ans.size() > 0) dp[i][mask] = ans.size(); //if found and answer then update DP
-}
-
-
- vector<int> smallestSufficientTeam(vector<string>& req_skills, vector<vector<string>>& people) {
-
-        int n = people.size();
-        int m = req_skills.size();
-
-        unordered_map<string,int>mpp; //for hashing skill v/s bit
-
-        for(int i = 0;i<m;++i) mpp[req_skills[i]] = (1<<i); //setting ith bit, for req_skill[i] skill
-
-        vector<int>people_skill; //vector of mask for peoples
-
-        for(auto it : people) 
-        {
-          int mask = 0;
-          for(int j = 0; j < it.size(); ++j)
-          {
-            if(mpp.count(it[j])) mask |= mpp[it[j]]; //if it[j] is a required skill then set that bit for that people's mask
-          }
-          people_skill.push_back(mask); //store the mask 
+    int dp[61][(1 << 16)];
+    vector<vector<int>>choice;
+    int helper(vector<int>&arr, int n, int idx, int mask) {
+        if(idx >= arr.size()) {
+            if(mask == (1 << n) - 1) {
+                return 0;
+            }
+            return 1e9;
         }
-
-        vector<vector<int>> dp(n, vector<int>((1<<m),-1)); //n=number of people, and (1<<m) to express all value mask of size m can take
+        
+        if(dp[idx][mask] != -1) return dp[idx][mask];
+        
+        int pick = 1 + helper(arr, n, idx + 1, mask | arr[idx]);
+        int notPick = helper(arr, n, idx + 1, mask);
+        
+        if(pick < notPick) {
+            choice[mask][idx] = 1;
+        } else {
+            choice[mask][idx] = 0;
+        }
+        
+        return dp[idx][mask] = min(pick, notPick);
+    }
+    vector<int> smallestSufficientTeam(vector<string>& req_skills, vector<vector<string>>& people) {
+        int n = req_skills.size();
+        unordered_map<string, int>mp;
+        for(int i = 0; i < n; ++i) {
+            mp[req_skills[i]] = i;
+        }
+        
+        vector<int>p;
+        for(auto &v : people) {
+            int mask = 0;
+            for(auto &str : v) {
+                mask |= (1 << mp[str]);
+            }
+            p.push_back(mask);
+        }
+        
+        choice.resize((1 << 16), vector<int>(p.size(), 0));
+        
+        memset(dp, -1, sizeof(dp));
+        cout << helper(p, n, 0, 0) << endl;
         vector<int>ans;
-
-        helper(0,people_skill,m,0,ans,dp);
-        return res;
+        int mask = 0;
+        for(int i = 0; i < p.size(); ++i) {
+            if(choice[mask][i]) {
+                mask |= p[i];
+                ans.push_back(i);
+            }
+            if(mask == (1 << n) - 1) break;
+        }
+        return ans;
     }
 };
