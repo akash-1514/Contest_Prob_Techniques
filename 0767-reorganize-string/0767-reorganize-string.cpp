@@ -13,12 +13,17 @@ public:
         }
         
         string ans = "";
+        char prev = '_';
         while(!pq.empty()) {
             pair<int, char>tp = pq.top(); pq.pop();
+            if(prev == tp.second) return "";
             ans.push_back(tp.second);
+            prev = tp.second;
             if(!pq.empty()) {
                 pair<int, char>tp2 = pq.top(); pq.pop();
+                if(prev == tp2.second) return "";
                 ans.push_back(tp2.second);
+                prev = tp2.second;
                 if(tp2.first - 1 > 0) {
                     pq.push({tp2.first - 1, tp2.second});
                 }
@@ -27,10 +32,6 @@ public:
             if(tp.first - 1 > 0) {
                 pq.push({tp.first - 1, tp.second});
             }
-        }
-        
-        for(int i = 0; i < ans.size() - 1; ++i) {
-            if(ans[i] == ans[i + 1]) return "";
         }
         
         return ans;
