@@ -6,7 +6,7 @@ public:
         
         if(dp[idx][prev + 1] != -1) return dp[idx][prev + 1];
         
-        int mx = -1e9;
+        int mx = 0;
         if(prev == -1) {
             mx = max(mx, 1 + helper(nums, idx + 1, idx));
         } else if(nums[idx] > nums[prev]) {
