@@ -13,25 +13,23 @@ public:
             vec.push_back({it.first, it.second});
         }
         
-        int start = 0, idx = 0, ans = 0;
-        priority_queue<int>pq;
+        int start = 0, idx = 0, ans = 0, mx = -1e9;
         while(idx < vec.size()) {
             if(vec[idx][0] <= start) {
-                pq.push(vec[idx][1]);
+                mx = max(mx, vec[idx][1]);
                 idx++;
             } else {
-                if(pq.empty() || pq.top() <= start) return -1;
+                if(mx == -1e9 || mx <= start) return -1;
                 else {
-                    start = pq.top();
-                    pq.pop();
-                    ans++;
+                    start = mx;
+                    ans++, mx = -1e9;
                     if(start == n) break;
                 }
             }
         }
         if(start == n) return ans;
         else {
-            if(!pq.empty() && pq.top() == n) {
+            if(mx != -1e9 && mx == n) {
                 return ++ans;
             }
             return -1;
