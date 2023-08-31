@@ -16,22 +16,25 @@ public:
         int start = 0, idx = 0, ans = 0;
         priority_queue<int>pq;
         while(idx < vec.size()) {
-            while(idx < vec.size() && vec[idx][0] <= start) {
+            if(vec[idx][0] <= start) {
                 pq.push(vec[idx][1]);
                 idx++;
-            }
-            ans++;
-            if(pq.empty()) return -1;
-            else {
-                if(pq.top() <= start) {
-                    return -1;
-                } else {
+            } else {
+                if(pq.empty() || pq.top() <= start) return -1;
+                else {
                     start = pq.top();
-                    if(start == n) break;
                     pq.pop();
+                    ans++;
+                    if(start == n) break;
                 }
             }
         }
-        return start < n ? -1 : ans;
+        if(start == n) return ans;
+        else {
+            if(!pq.empty() && pq.top() == n) {
+                return ++ans;
+            }
+            return -1;
+        }
     }
 };
