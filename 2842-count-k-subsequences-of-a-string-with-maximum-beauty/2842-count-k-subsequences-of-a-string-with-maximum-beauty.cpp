@@ -8,9 +8,7 @@ public:
             return 0;
         }
         
-        if(idx >= 26) return 0;
-        
-        if(mx < 0) return 0;
+        if(idx >= 26 || mx < 0) return 0;
         
         string seen = to_string(idx) + "," + to_string(k) + "," + to_string(mx);
         
@@ -41,11 +39,8 @@ public:
         
         sort(vec.begin(), vec.end());
         
-        int sz = vec.size();
-        
-        int mx = 0;
-        int temp = k;
-        for(int i = sz - 1; i >= 0 && temp-- > 0; --i) {
+        int mx = 0, temp = k;
+        for(int i = vec.size() - 1; i >= 0 && temp-- > 0; --i) {
             mx += vec[i];
         }
 
