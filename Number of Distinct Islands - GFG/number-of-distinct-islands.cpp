@@ -37,6 +37,7 @@ class Solution {
                 if(grid[i][j] == 1) {
                     string path = "";
                     dfs(grid, i, j, path);
+                    // cout << path << endl;
                     mp[path]++;
                     path = "";
                 }
