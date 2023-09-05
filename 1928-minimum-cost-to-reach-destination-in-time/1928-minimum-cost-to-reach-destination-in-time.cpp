@@ -1,34 +1,37 @@
+#define ppi pair<int, pair<int, int>>
 class Solution {
 public:
-    int dp[1001][1001];
-    int helper(vector<pair<int, int>> graph[], vector<int>&passingFee, int src, int maxTime) {
-        if(src == passingFee.size() - 1) {
-            return passingFee[src];
+    int minCost(int maxTime, vector<vector<int>>& edges, vector<int>& payingFees) {
+        int n = payingFees.size();
+        vector<pair<int, int>> graph[n];
+        for(auto &e : edges) {
+            graph[e[0]].push_back({e[1], e[2]});
+            graph[e[1]].push_back({e[0], e[2]});
         }
-        
-        if(dp[src][maxTime] != -1) return dp[src][maxTime];
-        
-        int mn = 1e9;
-        
-        for(auto &adj : graph[src]) {
-            int node = adj.first, t = adj.second;
-            if(t <= maxTime) {
-                mn = min(mn, passingFee[src] + helper(graph, passingFee, node, maxTime - t));
+        vector<int>cost(n, 1e9), time(n, 1e9);
+        priority_queue<ppi, vector<ppi>, greater<ppi>>pq;
+        pq.push({payingFees[0], {0, 0}});
+        cost[0] = payingFees[0], time[0] = 0;
+        while(!pq.empty()) {
+            auto tp = pq.top();
+            pq.pop();
+            
+            int currCost = tp.first, currTime = tp.second.first, node = tp.second.second;
+            
+            for(auto &adj : graph[node]) {
+                // we will not consider paths which takes time > maxTime
+                if(currTime + adj.second > maxTime) continue;
+                if(currCost + payingFees[adj.first] < cost[adj.first]) {
+                    cost[adj.first] = currCost + payingFees[adj.first];
+                    time[adj.first] = currTime + adj.second;
+                    pq.push({cost[adj.first], {time[adj.first], adj.first}});
+                } else if(currTime + adj.second < time[adj.first]) {
+                    time[adj.first] = currTime + adj.second;
+                    pq.push({currCost + payingFees[adj.first], {time[adj.first], adj.first}});
+                }
             }
         }
         
-        return dp[src][maxTime] = mn;
-    }
-    int minCost(int maxTime, vector<vector<int>>& edges, vector<int>& passingFees) {
-        int n = passingFees.size();
-        vector<pair<int, int>>graph[n];
-        for(auto &e : edges) {
-            int u = e[0], v = e[1], t = e[2];
-            graph[u].push_back({v, t});
-            graph[v].push_back({u, t});
-        }
-        memset(dp, -1, sizeof(dp));
-        int res = helper(graph, passingFees, 0, maxTime);
-        return res == 1e9 ? -1 : res;
+        return cost[n - 1] == 1e9 ? -1 : cost[n - 1];
     }
 };
