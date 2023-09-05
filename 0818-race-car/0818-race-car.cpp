@@ -15,7 +15,7 @@ public:
             // accelerate
             int newSpeed = 2 * speed;
             int newPos = pos + speed;
-            if(!vis[newPos][newSpeed] && abs(pos - newPos) <= target) {
+            if(!vis[newPos][newSpeed] && abs(target - newPos) <= target) {
                 vis[newPos][newSpeed] = 1;
                 q.push({steps + 1, {newPos, newSpeed}});
             }
