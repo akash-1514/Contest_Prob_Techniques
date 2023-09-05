@@ -6,8 +6,6 @@ public:
             return passingFee[src];
         }
         
-        // vis[src] = 1;
-        
         if(dp[src][maxTime] != -1) return dp[src][maxTime];
         
         int mn = 1e9;
@@ -20,8 +18,6 @@ public:
         }
         
         return dp[src][maxTime] = mn;
-        
-        // vis[src] = 0;
     }
     int minCost(int maxTime, vector<vector<int>>& edges, vector<int>& passingFees) {
         int n = passingFees.size();
