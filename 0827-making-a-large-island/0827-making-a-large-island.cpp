@@ -77,9 +77,6 @@ public:
             }
         }
         int mx = 0;
-        for(int i = 0; i <= n * n; ++i) {
-            mx = max(mx, ds.size[i]);
-        }
         for(int i = 0; i < n; ++i) {
             for(int j = 0; j < n; ++j) {
                 int currNodeNum = i * n + j;
@@ -101,6 +98,8 @@ public:
                         }
                     }
                     mx = max(mx, sz);
+                } else {
+                    mx = max(mx, ds.size[ds.findPar(i * n + j)]);
                 }
             }
         }
