@@ -20,8 +20,8 @@ public:
         }
     }
     ListNode* reverseBetween(ListNode* head, int left, int right) {
-        // simple reverse the linked list
         if(head == NULL || head->next == NULL || left == right) return head;
+        
         ListNode* dummy = new ListNode(-1);
         dummy->next = head;
         
