@@ -1,6 +1,6 @@
 class Solution {
 public:
-    int dp[2001][2001];
+    vector<vector<int>>dp;
     bool helper(string &s, string &p, int idx1, int idx2) {
         if(idx1 == s.size() && idx2 == p.size()) return true;
         if(idx1 == s.size()) {
@@ -35,7 +35,8 @@ public:
         return dp[idx1][idx2] = false;
     }
     bool isMatch(string s, string p) {
-        memset(dp, -1, sizeof(dp));
+        int n = s.size(), m = p.size();
+        dp.resize(n, vector<int>(m, -1));
         return helper(s, p, 0, 0);
     }
 };
