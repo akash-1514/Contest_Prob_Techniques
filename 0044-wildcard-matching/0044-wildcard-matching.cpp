@@ -17,11 +17,8 @@ public:
         
         if(p[idx2] == '*' || p[idx2] == '?') {
             if(p[idx2] == '*') {
-                int i = idx1;
-                while(i <= s.size()) {
-                    if(helper(s, p, i, idx2 + 1)) return dp[idx1][idx2] = true;
-                    i++;
-                } 
+                if(helper(s, p, idx1, idx2 + 1)) return true;
+                if(helper(s, p, idx1 + 1, idx2)) return true;
             } else {
                 if(helper(s, p, idx1 + 1, idx2 + 1)) return dp[idx1][idx2] = true;
             }
