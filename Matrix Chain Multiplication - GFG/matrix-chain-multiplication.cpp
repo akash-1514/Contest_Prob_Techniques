@@ -14,15 +14,15 @@ public:
         if(i == j) return 0;
         if(dp[i][j] != -1) return dp[i][j];
         int minCost = 1e9;
-        for(int k = i; k < j; ++k) {
-            int cost = (arr[i - 1] * arr[k] * arr[j]) + helper(arr, n, i, k) + helper(arr, n, k + 1, j);
+        for(int k = i + 1; k <= j; ++k) {
+            int cost = (arr[i] * arr[k] * arr[j + 1]) + helper(arr, n, i, k - 1) + helper(arr, n, k, j);
             minCost = min(minCost, cost);
         }
         return dp[i][j] = minCost;
     }
     int matrixMultiplication(int N, int arr[]) {
         memset(dp, -1, sizeof(dp));
-        return helper(arr, N, 1, N - 1);
+        return helper(arr, N, 0, N - 2);
     }
 };
 
