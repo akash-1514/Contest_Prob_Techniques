@@ -6,6 +6,7 @@ public:
         validOperations.push_back(a - b);
         validOperations.push_back(a * b);
         validOperations.push_back(b - a);
+        // doubt
         if(abs(b) > FLT_EPSILON) {
             validOperations.push_back(a / b);
         } 
@@ -27,17 +28,17 @@ public:
                 double secondNum = arr[sn];
                 vector<double> validOperations = getValidOperations(firstNum, secondNum);
                 vector<double> newArr;
-                for(auto &validOperation : validOperations) {
-                    newArr.clear();
-                    newArr.push_back(validOperation);
-                    for(int i = 0; i < n; ++i) {
-                        if(i != fn && i != sn) {
-                            newArr.push_back(arr[i]);
-                        }
+                for(int i = 0; i < n; ++i) {
+                    if(i != fn && i != sn) {
+                        newArr.push_back(arr[i]);
                     }
+                }
+                for(auto &validOperation : validOperations) {
+                    newArr.push_back(validOperation);
                     if(helper(newArr)) {
                         return true;
                     }
+                    newArr.pop_back();
                 }
             }
         }
