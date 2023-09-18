@@ -4,7 +4,7 @@ public:
         int n = graph.size();
         queue<pair<int, pair<int, int>>>q;
         
-        unordered_map<string, int>vis;
+        map<string, int>vis;
         
         for(int i = 0; i < n; ++i) {
             string temp = to_string(-1) + "," + to_string(i) + "," + to_string(1 << i);
@@ -17,7 +17,6 @@ public:
             q.pop();
             
             int dist = front.first, node = front.second.first, mask = front.second.second;
-            
             
             if(mask == ((1 << n) - 1)) {
                 return dist;
