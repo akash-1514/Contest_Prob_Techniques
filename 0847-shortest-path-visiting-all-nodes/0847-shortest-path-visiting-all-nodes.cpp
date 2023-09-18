@@ -18,11 +18,10 @@ public:
             
             int dist = front.first, node = front.second.first, mask = front.second.second;
             
-            if(mask == ((1 << n) - 1)) {
-                return dist;
-            }
-            
             for(auto &adj : graph[node]) {
+                if((mask | (1 << adj)) == ((1 << n) - 1)) {
+                    return dist + 1;
+                }
                 string temp = to_string(node) + "," + to_string(adj) + "," + to_string(mask | (1 << adj));
                 if(vis[temp] == 0) {
                     vis[temp] = 1;
