@@ -3,12 +3,11 @@ public:
     int shortestPathLength(vector<vector<int>>& graph) {
         int n = graph.size();
         queue<pair<int, pair<int, int>>>q;
-        
-        unordered_map<string, int>vis;
+    
+        set<pair<int, int>> vis;
         
         for(int i = 0; i < n; ++i) {
-            string temp = to_string(-1) + "," + to_string(i) + "," + to_string(1 << i);
-            vis[temp] = 1;
+            vis.insert({i, (1 << i)});
             q.push({0, {i, (1 << i)}});
         }
        
@@ -22,9 +21,8 @@ public:
                 if((mask | (1 << adj)) == ((1 << n) - 1)) {
                     return dist + 1;
                 }
-                string temp = to_string(node) + "," + to_string(adj) + "," + to_string(mask | (1 << adj));
-                if(vis[temp] == 0) {
-                    vis[temp] = 1;
+                if(vis.find({adj, mask | (1 << adj)}) == vis.end()) {
+                    vis.insert({adj, (mask | (1 << adj))});
                     q.push({dist + 1, {adj, mask | (1 << adj)}});
                 }
             }
