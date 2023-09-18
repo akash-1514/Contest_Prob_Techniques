@@ -4,7 +4,7 @@ public:
         int n = graph.size();
         queue<pair<int, pair<int, int>>>q;
         
-        map<string, int>vis;
+        unordered_map<string, int>vis;
         
         for(int i = 0; i < n; ++i) {
             string temp = to_string(-1) + "," + to_string(i) + "," + to_string(1 << i);
