@@ -1,17 +1,15 @@
 class Solution {
 public:
-    long long ans_query(vector<vector<pair<long long, long long>>>&dp, int maxUp, int node, long long k)
-    {
-        long long ans = node;
-        for(int bit = 0;bit<35;bit++)
-        {
-            if((1ll<<bit)&k)
-            {
-                ans+=dp[node][bit].second;
-                node = dp[node][bit].first;
+    int maxUp = 35;
+    long long ans_query(vector<vector<pair<long long, long long>>>&dp, int node, long long k) {
+        if(k == 0) return 0;
+        
+        for(int i = 0; i < maxUp; ++i) {
+            if((1ll << i) & k) {
+                return dp[node][i].second + ans_query(dp, dp[node][i].first, k - (1ll << i));
             }
         }
-        return ans;
+        return 0;
     }
     long long getMaxFunctionValue(vector<int>& receiver, long long k) {
         int n = receiver.size(), maxUp = ceil(log2(k));
@@ -30,7 +28,7 @@ public:
 
         long long mx = 0;
         for(int i = 0; i < n; ++i) {
-            long long score = ans_query(dp, maxUp, i, k);
+            long long score = i + ans_query(dp, i, k);
             mx = max(mx, score);
         }
         return mx;
