@@ -12,7 +12,7 @@ public:
         return 0;
     }
     long long getMaxFunctionValue(vector<int>& receiver, long long k) {
-        int n = receiver.size(), maxUp = ceil(log2(k));
+        int n = receiver.size();
         vector<vector<pair<long long, long long>>>dp(n, vector<pair<long long, long long>>(maxUp + 1));
         for(int i = 0; i < n; ++i) {
             dp[i][0] = {receiver[i], receiver[i]};
