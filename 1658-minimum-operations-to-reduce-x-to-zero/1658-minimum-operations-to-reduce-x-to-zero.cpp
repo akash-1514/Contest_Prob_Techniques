@@ -1,20 +1,26 @@
 class Solution {
 public:
     int minOperations(vector<int>& nums, int x) {
-        int totSum = 0;
-        for(int ele : nums) totSum += ele;
+        int totSum = 0, n = nums.size(), sum = 0, idx = 0;
+        unordered_map<int, int>mp;
+        for(int ele : nums) {
+            sum += ele;
+            mp[sum] = idx++;
+            totSum += ele;
+        }
+        
         if(x > totSum) return -1;
-        int mx = -1e9, i = 0, sum = 0;
-        for(int j = 0; j < nums.size(); ++j) {
-            sum += nums[j];
-            while(sum > (totSum - x)) {
-                sum -= nums[i++];
-            }
-            if(sum == totSum - x) {
-                mx = max(mx, j - i + 1);
+        
+        int tar = totSum - x, mx = INT_MIN;
+        mp[0] = -1;
+        sum = 0;
+        for(int i = 0; i < n; ++i) {
+            sum += nums[i];
+            if(mp.find(sum - tar) != mp.end()) {
+                mx = max(mx, i - mp[sum - tar]);
             }
         }
-        if(mx == -1e9) return -1;
+        if(mx == INT_MIN) return -1;
         return nums.size() - mx;
     }
 };
