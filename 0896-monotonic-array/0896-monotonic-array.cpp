@@ -5,17 +5,19 @@ public:
         bool found = false, inc = false;
         for(int i = 1; i < n; ++i) {
             if(nums[i] == nums[i - 1]) continue;
-            if(found) {
-                if(inc) {
-                    if(nums[i] < nums[i - 1]) return false;
+            if(nums[i] < nums[i - 1]) {
+                if(!found) {
+                    inc = false;
+                    found = true;
                 } else {
-                    if(nums[i] > nums[i - 1]) return false;
+                    if(inc) return false;
                 }
             } else {
-                if(nums[i] > nums[i - 1]) {
-                    inc = true;
-                } 
-                found = true;
+                if(!found) {
+                    inc = true, found = true;
+                } else {
+                    if(!inc) return false;
+                }
             }
         }
         return true;
