@@ -7,7 +7,6 @@ public:
         dp[0] = (nums[0] >= left && nums[0] <= right);
         for(int i = 1; i < n; ++i) {
             if(nums[i] > right) {
-                dp[i] = 0;
                 mx = i;
             } else {
                 if(nums[i] < left) dp[i] = dp[i - 1];
@@ -19,6 +18,7 @@ public:
         for(int ele : dp) {
             sum += ele;
         }
+        
         return sum;
     }
 };
