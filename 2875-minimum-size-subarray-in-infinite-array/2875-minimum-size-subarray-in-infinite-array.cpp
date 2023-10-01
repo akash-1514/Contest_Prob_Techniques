@@ -1,48 +1,29 @@
 class Solution {
 public:
-    int minSizeSubarray(vector<int>& arr, int target) {
-        vector<int>nums;
-        for(int ele : arr) {
-            nums.push_back(ele);
-        }
-        for(int ele : arr) {
-            nums.push_back(ele);
-        }
+    int minSizeSubarray(vector<int>& nums, int target) {
+        vector<int>arr;
         long long sum = 0;
-        for(int ele : arr) sum += ele;
+        for(int ele : nums) arr.push_back(ele), sum += ele;
+        for(int ele : nums) arr.push_back(ele);
         
-        int sz = (target / sum) * arr.size();
-        int rem = target % sum;
+        int x = (target / sum), rem = target % sum;
         
-        int mn = 1e9, s = 0, i = 0;
-        for(int j = 0; j < nums.size(); ++j) {
-            s += nums[j];
+        int sz = 1e9, i = 0, s = 0, ans = 1e9, sz2 = 1e9, s2 = 0, i2 = 0;
+        for(int j = 0; j < arr.size(); ++j) {
+            s += arr[j];
+            s2 += arr[j];
             while(s > rem) {
-                s -= nums[i++];
+                s2 -= arr[i2++];
+                s -= arr[i++];
             }
-            if(s == rem) {
-                mn = min(mn, j - i + 1);
-            }
+            if(s == rem) sz = min(sz, j - i + 1);
+            if(s2 == target) sz2 = min(sz2, j - i2 + 1);
+        }
+    
+        if(sz != 1e9) {
+            ans = min({ans, sz2, x * (int)nums.size() + sz});
         }
         
-        int sz2 = 1e9;
-        i = 0, s = 0;
-        for(int j = 0; j < nums.size(); ++j) {
-            s += nums[j];
-            while(s > target) {
-                s -= nums[i++];
-            }
-            if(s == target) {
-                sz2 = min(sz2, j - i + 1);
-            }
-        }
-        
-        int ans = 1e9;
-        if(mn != 1e9) {
-            ans = min(ans, sz + mn);
-        }
-        
-        ans = min(ans, sz2);
         return ans == 1e9 ? -1 : ans;
     }
 };
