@@ -9,14 +9,14 @@ public:
         
         int mn = 1e9;
         if(x + 1 < n) {
-            mn = min(mn, arr[x][y] + helper(arr, x + 1, y));
+            mn = min(mn, helper(arr, x + 1, y));
         }
         
         if(y + 1 < m) {
-            mn = min(mn, arr[x][y] + helper(arr, x, y + 1));
+            mn = min(mn, helper(arr, x, y + 1));
         }
         
-        return dp[x][y] = mn;
+        return dp[x][y] = arr[x][y] + mn;
     }
     int minPathSum(vector<vector<int>>& grid) {
         memset(dp, -1, sizeof(dp));
