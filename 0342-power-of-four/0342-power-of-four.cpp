@@ -1,16 +1,7 @@
 class Solution {
 public:
     bool isPowerOfFour(int n) {
-        if(n == 0) {
-            return false;
-        }
-        while(n != 1) {
-            if(n % 4 == 0) {
-                n /= 4;
-            } else {
-                break;
-            }
-        }
-        return n == 1;
+        if(n == 0) return false;
+        return !(n & ((long long)n - 1)) && ((long long)log2(n) % 2 == 0);
     }
 };
