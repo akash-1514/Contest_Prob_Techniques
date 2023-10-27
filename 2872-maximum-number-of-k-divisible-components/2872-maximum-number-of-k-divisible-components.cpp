@@ -4,7 +4,7 @@ public:
         if(n == 1) return 1;
         vector<int>indegree(n, 0);
         vector<int> graph[n];
-        vector<long long> v(n);
+
         for(auto &e : edges) {
             indegree[e[0]]++, indegree[e[1]]++;
             graph[e[0]].push_back(e[1]);
@@ -16,7 +16,6 @@ public:
             if(indegree[i] == 1) {
                 q.push(i);
             }
-            v[i] = values[i];
         }
         
         int ans = 0;
@@ -24,24 +23,20 @@ public:
             int front = q.front();
             q.pop();
             
-            if(v[front] % k == 0) {
+            if(values[front] % k == 0) {
                 ans++;
-                v[front] = 0;
+                values[front] = 0;
             } 
             
             for(auto &adj : graph[front]) {
                 if(indegree[adj] != 0) {
                     indegree[adj]--, indegree[front]--;
-                    v[adj] += v[front];
+                    values[adj] += values[front] % k;
                     if(indegree[adj] == 1) {
                         q.push(adj);
                     }
                 }
             }
-        }
-        
-        for(long long ele : v) {
-            cout << ele << " ";
         }
         
         return ans;
