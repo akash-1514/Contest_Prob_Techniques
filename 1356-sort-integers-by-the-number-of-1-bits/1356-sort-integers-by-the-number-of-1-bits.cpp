@@ -8,7 +8,9 @@ public:
         }
         sort(vec.begin(), vec.end());
         vector<int>ans;
-        for(auto &ele : vec) ans.push_back(ele.second);
+        for(pair<int, int>&ele : vec) {
+            ans.push_back(ele.second);
+        }
         return ans;
     }
 };
