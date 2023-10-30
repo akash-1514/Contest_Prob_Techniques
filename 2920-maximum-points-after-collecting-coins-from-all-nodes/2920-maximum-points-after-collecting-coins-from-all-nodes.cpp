@@ -7,16 +7,10 @@ public:
         
         if(dp[src][steps] != -1) return dp[src][steps];
         
-        int way1 = (coins[src] / (1 << steps)) - k;
+        int way1 = (coins[src] / (1 << steps)) - k, way2 = (coins[src] / (1 << steps)) / 2;
         for(auto &adj : graph[src]) {
             if(adj != par) {
                 way1 += helper(graph, adj, src, coins, k, steps);
-            }
-        }
-        
-        int way2 = (coins[src] / (1 << steps)) / 2;
-        for(auto &adj : graph[src]) {
-            if(adj != par) {
                 way2 += helper(graph, adj, src, coins, k, steps + 1);
             }
         }
