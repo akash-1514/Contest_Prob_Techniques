@@ -1,6 +1,6 @@
 struct Node {
     Node* links[26];
-    set<string>suggestedWords;
+    vector<string>suggestedWords;
     bool isEnd = false;
     
     bool containsKey(char ch) {
@@ -30,7 +30,7 @@ public:
 				node->put(ch, new Node());
 			}
 			node = node->get(ch);
-            node->suggestedWords.insert(word);
+            node->suggestedWords.push_back(word);
 		}
 		node->isEnd = true;
 	}
@@ -87,6 +87,7 @@ public:
 class Solution {
 public:
     vector<vector<string>> suggestedProducts(vector<string>& products, string searchWord) {
+        sort(products.begin(), products.end());
         Trie t;
         for(auto &p : products) {
             t.insert(p);
