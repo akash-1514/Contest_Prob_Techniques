@@ -18,7 +18,7 @@ public:
             for(int j = 0; j < 26; ++j) {
                 if(j + 'a' == ch) continue;
                 searchWord[i] = j + 'a';
-                if(mp[searchWord]) return true;
+                if(mp.find(searchWord) != mp.end()) return true;
             }
             searchWord[i] = ch;
         }
