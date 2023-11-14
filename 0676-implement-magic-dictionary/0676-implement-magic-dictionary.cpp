@@ -2,7 +2,7 @@ class MagicDictionary {
 public:
     unordered_set<string>mp;
     MagicDictionary() {
-                
+        
     }
     
     void buildDict(vector<string> dictionary) {
@@ -12,17 +12,23 @@ public:
     }
     
     bool search(string searchWord) {
-        for(int i = 0; i < searchWord.size(); ++i) {
+        int n = searchWord.size();
+        for(int i = 0; i < n; ++i) {
             char ch = searchWord[i];
             for(int j = 0; j < 26; ++j) {
-                if(ch == j + 'a') continue;
+                if(j + 'a' == ch) continue;
                 searchWord[i] = j + 'a';
-                if(mp.count(searchWord) == 1) {
-                    return true;
-                }
+                if(mp.count(searchWord)) return true;
             }
             searchWord[i] = ch;
         }
         return false;
     }
 };
+
+/**
+ * Your MagicDictionary object will be instantiated and called as such:
+ * MagicDictionary* obj = new MagicDictionary();
+ * obj->buildDict(dictionary);
+ * bool param_2 = obj->search(searchWord);
+ */
