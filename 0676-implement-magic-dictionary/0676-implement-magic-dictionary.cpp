@@ -1,28 +1,103 @@
+struct Node {
+    Node* links[26];
+    bool isEnd;
+
+    bool containsKey(char ch) {
+        return links[ch - 'a'] != nullptr;
+    }
+
+    Node* get(char ch) {
+        return links[ch - 'a'];
+    }
+
+    void put(char ch, Node* node) {
+        links[ch - 'a'] = node;
+    }
+};
+class Trie {
+public:
+    Node* root;
+    Trie() {
+        root = new Node();
+    }
+    
+    void insert(string word) {
+        Node* node = root;
+        for(char ch : word) {
+            if(!node->containsKey(ch)) {
+                node->put(ch, new Node());
+            }
+            node = node->get(ch);
+        }
+        node->isEnd = true;
+    }
+    
+    bool search(string word) {
+        Node* node = root;
+        for(char ch : word) {
+            if(!node->containsKey(ch)) {
+                return false;
+            }
+            node = node->get(ch);
+        }
+        return node->isEnd;
+    }
+    
+    bool startsWith(string prefix) {
+        Node* node = root;
+        for(char ch : prefix) {
+            if(!node->containsKey(ch)) {
+                return false;
+            }
+            node = node->get(ch);
+        }
+        return true;
+    }
+    
+    bool searchWrongWord(string &word, int idx, bool fl, Node* root) {
+        if(idx >= word.size()) {
+            return fl && root->isEnd;
+        }
+        
+        if(fl) {
+            if(root->containsKey(word[idx])) {
+                if(searchWrongWord(word, idx + 1, fl, root->get(word[idx]))) return true;
+            } else {
+                return false;
+            }
+        } else {
+            for(int j = 0; j < 26; ++j) {
+                if(root->containsKey(j + 'a')) {
+                    if((j + 'a') == word[idx]) {
+                        if(searchWrongWord(word, idx + 1, fl, root->get(word[idx]))) return true;
+                    } else {
+                        if(searchWrongWord(word, idx + 1, true, root->get(j + 'a'))) return true;   
+                    }
+                }
+            }
+        }
+        return false;
+    }
+    
+    bool searchWrongWord(string word) {
+        return searchWrongWord(word, 0, false, root);
+    }
+};    
 class MagicDictionary {
 public:
-    unordered_map<string, int>mp;
+    Trie t;
     MagicDictionary() {
         
     }
     
     void buildDict(vector<string> dictionary) {
         for(auto &w : dictionary) {
-            mp[w]++;
+            t.insert(w);
         }
     }
     
     bool search(string searchWord) {
-        int n = searchWord.size();
-        for(int i = 0; i < n; ++i) {
-            char ch = searchWord[i];
-            for(int j = 0; j < 26; ++j) {
-                if(j + 'a' == ch) continue;
-                searchWord[i] = j + 'a';
-                if(mp.find(searchWord) != mp.end()) return true;
-            }
-            searchWord[i] = ch;
-        }
-        return false;
+        return t.searchWrongWord(searchWord);
     }
 };
 
