@@ -1,13 +1,13 @@
 class MagicDictionary {
 public:
-    unordered_set<string>mp;
+    unordered_map<string, int>mp;
     MagicDictionary() {
         
     }
     
     void buildDict(vector<string> dictionary) {
         for(auto &w : dictionary) {
-            mp.insert(w);
+            mp[w]++;
         }
     }
     
@@ -18,7 +18,7 @@ public:
             for(int j = 0; j < 26; ++j) {
                 if(j + 'a' == ch) continue;
                 searchWord[i] = j + 'a';
-                if(mp.count(searchWord)) return true;
+                if(mp[searchWord]) return true;
             }
             searchWord[i] = ch;
         }
