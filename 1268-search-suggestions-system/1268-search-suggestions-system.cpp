@@ -15,6 +15,7 @@ public:
             for(int i = idx; i < min((int)idx + 3, n) && !products[i].compare(0, prefix.size(), prefix); ++i) {
                 res.push_back(products[i]);
             }
+            bStart = idx;
             ans.push_back(res);
         }
         return ans;
