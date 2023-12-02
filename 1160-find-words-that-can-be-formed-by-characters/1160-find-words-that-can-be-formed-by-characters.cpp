@@ -1,13 +1,14 @@
 class Solution {
 public:
     bool check(string &s, string &chars) {
-        unordered_map<char, int>mp;
-        for(char ch : s) mp[ch]++;
-        for(char ch : chars) mp[ch]--;
+        vector<int>freq(26, 0);
+        for(char ch : s) freq[ch - 'a']++;
+        for(char ch : chars) freq[ch - 'a']--;
         
-        for(auto &it : mp) {
-            if(it.second > 0) return false;
+        for(int i = 0; i < 26; ++i) {
+            if(freq[i] > 0) return false;
         }
+        
         return true;
     }
     int countCharacters(vector<string>& words, string chars) {
