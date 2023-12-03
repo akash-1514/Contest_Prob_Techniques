@@ -40,7 +40,6 @@ public:
     }
     int countCompleteSubstrings(string word, int k) {
         int ans = 0, n = word.size();
-        // if(k == 1) return n;
         for(int i = k; i <= word.size() && i / k <= 26; i += k) {
             int res = countSubstring(word, k, i);
             ans += res;
