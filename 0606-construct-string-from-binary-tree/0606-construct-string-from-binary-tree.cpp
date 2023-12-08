@@ -11,29 +11,16 @@
  */
 class Solution {
 public:
-    string preorder(TreeNode* root, bool start) {
-        if(root == NULL) {
-            return "";
-        }
-        
-        string res = "";
-        if(!start) res = "(";
-        res += to_string(root->val);
-        
-        string left = preorder(root->left, false);
-        string right = preorder(root->right, false);
-        
-        if((left == "" && right != "") || (left != "" && right != "")) {
-            if(left == "") left = "()";
-            res += (left + right);
-        } else if(left != "") {
-            res += left;
-        }
-        
-        if(!start) res += ")";
-        return res;
-    }
     string tree2str(TreeNode* root) {
-        return preorder(root, true);
+        if(root == NULL) return "";
+        if(root->left == NULL && root->right == NULL) return to_string(root->val);
+        
+        string left = "(", right = "(";
+        left += (tree2str(root->left) + ")");
+        right += (tree2str(root->right) + ")");
+        
+        if(right == "()") right = "";
+        
+        return to_string(root->val) + left + right;
     }
 };
