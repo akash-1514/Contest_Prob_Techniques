@@ -1,6 +1,7 @@
 class Solution {
 public:
     long long countExcellentPairs(vector<int>& nums, int k) {
+        // just a observation problem
         int n = nums.size();
         vector<int> vec;
         unordered_map<int, int>mp;
@@ -10,8 +11,6 @@ public:
             vec.push_back(set_bits);
             mp[nums[i]]++;
         }
-        for(int ele : vec) cout << ele << " ";
-        cout << endl;
         long long ans = 0;
         sort(vec.begin(), vec.end());
         for(int i = 0; i < vec.size(); ++i) {
