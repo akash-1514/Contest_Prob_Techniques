@@ -6,6 +6,7 @@ public:
             return 0;
         }
         
+        // nice optimization for handing len [10..............99]
         if(cnt >= 10) cnt = 10;
         
         if(dp[prevChar][cnt][idx][k] != -1) return dp[prevChar][cnt][idx][k];
