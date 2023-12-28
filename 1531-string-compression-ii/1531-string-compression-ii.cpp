@@ -37,6 +37,8 @@ public:
             }
         }
         
+        // handling when all characters are same especially when len == 100
+        
         if(fl) {
             if((n - k) >= 100) return 4;
             else if((n - k) >= 10) return 3;
