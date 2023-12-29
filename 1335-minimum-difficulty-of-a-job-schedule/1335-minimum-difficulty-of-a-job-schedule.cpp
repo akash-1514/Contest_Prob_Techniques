@@ -2,17 +2,17 @@ class Solution {
 public:
     int dp[301][11];
     int helper(vector<int>&arr, int idx, int d) {
-        if(idx >= arr.size()) {
-            if(d == 0) return 0;
-            return 1e9;
-        }
         
-        if(d < 0) return 1e9;
+        if(d == 1) {
+            int mx = 0;
+            for(int i = idx; i < arr.size(); ++i) mx = max(mx, arr[i]);
+            return mx;
+        }
         
         if(dp[idx][d] != -1) return dp[idx][d];
         
         int ans = 1e9, mx = 0;
-        for(int k = idx; k < arr.size(); ++k) {
+        for(int k = idx; k < arr.size() - d + 1; ++k) {
             mx = max(mx, arr[k]);
             ans = min(ans, mx + helper(arr, k + 1, d - 1));
         }
