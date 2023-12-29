@@ -2,7 +2,6 @@ class Solution {
 public:
     int dp[301][11];
     int helper(vector<int>&arr, int idx, int d) {
-        
         if(d == 1) {
             int mx = 0;
             for(int i = idx; i < arr.size(); ++i) mx = max(mx, arr[i]);
