@@ -7,16 +7,10 @@ public:
         for(int i = 1; i < n; ++i) {
             int diff = heights[i] - heights[i - 1];
             if(diff > 0) {
-                if(pq.size() < ladders) {
-                    pq.push(-diff);
-                } else {
-                    if(!pq.empty() && diff > -1 * pq.top()) {
-                        bricks += pq.top();
-                        pq.pop();
-                        pq.push(-diff);
-                    } else {
-                        bricks -= diff;
-                    }
+                pq.push(-diff);
+                if(pq.size() > ladders) {
+                    bricks += pq.top();
+                    pq.pop();
                 }
             } 
             if(bricks >= 0) {
