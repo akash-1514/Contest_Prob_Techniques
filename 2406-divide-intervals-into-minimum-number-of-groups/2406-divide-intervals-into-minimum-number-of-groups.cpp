@@ -1,13 +1,26 @@
 class Solution {
 public:
     int minGroups(vector<vector<int>>& intervals) {
-        map<int, int>mp;
-        for(auto &i : intervals) mp[i[0]]++, mp[i[1] + 1]--;
-        int mx = 0, cnt = 0;
-        for(auto &it : mp) {
-            cnt += it.second;
-            mx = max(mx, cnt);
+        vector<int> startTime, endTime;
+        for(auto &i : intervals) {
+            startTime.push_back(i[0]);
+            endTime.push_back(i[1]);
         }
-        return mx;
+        
+        sort(startTime.begin(), startTime.end());
+        sort(endTime.begin(), endTime.end());
+        
+        int i = 0, j = 0, ans = 0, cnt = 0;
+        
+        while(i < startTime.size()) {
+            if(startTime[i] <= endTime[j]) {
+                ans = max(ans, ++cnt);
+                i++;
+            } else {
+                j++, cnt--;
+            }
+        }
+        
+        return ans;
     }
 };
