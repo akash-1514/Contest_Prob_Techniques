@@ -65,6 +65,9 @@ struct SegTree
 };
 class Solution {
 public:
+    // Aproach1: Ordered set(Policy DS) 
+    // Approach2: Segment Tree
+    // Approach3: Merge Sort
     vector<int> countSmaller(vector<int>& nums) {
         int n = nums.size();
         SegTree seg;
