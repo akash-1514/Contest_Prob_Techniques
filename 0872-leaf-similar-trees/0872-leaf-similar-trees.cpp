@@ -11,30 +11,19 @@
  */
 class Solution {
 public:
-    void traverse(TreeNode* root, vector<int>&leafs) {
+    void traverse(TreeNode* root, string &s) {
         if(!root) return;
         if(!root->left and !root->right) {
-            leafs.push_back(root->val);
+            s += to_string(root->val) + ",";
             return;
         }
-        traverse(root->left, leafs);
-        traverse(root->right, leafs);
-    }
-    bool dfs(TreeNode* root, vector<int>&leafs, int &idx) {
-        if(!root) return true;
-        if(!root->left and !root->right) {
-            if(idx >= leafs.size() || leafs[idx++] != root->val) {
-                return false;
-            } 
-            return true;
-        }
-        
-        return dfs(root->left, leafs, idx) && dfs(root->right, leafs, idx);
+        traverse(root->left, s);
+        traverse(root->right, s);
     }
     bool leafSimilar(TreeNode* root1, TreeNode* root2) {
-        vector<int> leafs;
-        traverse(root1, leafs);
-        int idx = 0;
-        return dfs(root2, leafs, idx) && idx >= leafs.size();
+        string s1 = "", s2 = "";
+        traverse(root1, s1);
+        traverse(root2, s2);
+        return s1 == s2;
     }
 };
