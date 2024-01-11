@@ -9,42 +9,22 @@
  *     TreeNode(int x, TreeNode *left, TreeNode *right) : val(x), left(left), right(right) {}
  * };
  */
-
 class Solution {
 public:
-    pair<int, pair<int, int>> helper(TreeNode* root) {
-        if(root == NULL) {
-            return {INT_MIN, {INT_MAX, INT_MIN}};
-        }
+    void helper(TreeNode* root, int &ans, int mx, int mn) {
+        if(!root) return;
         
-        auto left = helper(root->left);
-        auto right = helper(root->right);
+        int newMx = max(mx, root->val), newMn = min(mn, root->val);
         
-        int leftRes = left.first, leftMn = left.second.first, leftMx = left.second.second;
-        int rightRes = right.first, rightMx = right.second.second, rightMn = right.second.first;
+        helper(root->left, ans, newMx, newMn);
+        helper(root->right, ans, newMx, newMn);
         
-        pair<int, pair<int, int>> ans;
-        
-        int mx = max(leftRes, rightRes);
-        if(leftMn != INT_MAX) {
-            mx = max(mx, abs(root->val - leftMn));
-        } 
-        
-        if(leftMx != INT_MIN) {
-            mx = max(mx, abs(root->val - leftMx));
-        }
-        
-        if(rightMn != INT_MAX) {
-            mx = max(mx, abs(root->val - rightMn));
-        } 
-        
-        if(rightMx != INT_MIN) {
-            mx = max(mx, abs(root->val - rightMx));
-        }
-        return {mx, {min({leftMn, rightMn, root->val}), max({root->val, leftMx, rightMx})}};
+        if(mn != INT_MAX) ans = max(ans, abs(root->val - mn));
+        if(mx != INT_MIN) ans = max(ans, abs(root->val - mx));
     }
     int maxAncestorDiff(TreeNode* root) {
-        auto ans = helper(root);
-        return ans.first;
+        int ans = 0;
+        helper(root, ans, INT_MIN, INT_MAX);
+        return ans;
     }
 };
