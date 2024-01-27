@@ -8,9 +8,9 @@ public:
             return 0;
         }
         
-        if(dp[n][k] != -1) return dp[n][k];
+        if(k < 0) return 0;
         
-        // if(k < 0) return 0;
+        if(dp[n][k] != -1) return dp[n][k];
         
         int ans = 0;
         for(int i = 0; i < n; ++i) {
