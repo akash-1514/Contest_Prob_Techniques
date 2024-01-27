@@ -16,6 +16,8 @@ public:
         for(int i = 0; i < n; ++i) {
             if(i <= k) {
                 ans = (ans + helper(n - 1, k - i)) % mod;
+            } else {
+                break;
             }
         }
         return dp[n][k] = ans;
