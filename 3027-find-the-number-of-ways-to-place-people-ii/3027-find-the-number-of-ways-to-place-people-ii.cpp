@@ -9,7 +9,7 @@ public:
     int numberOfPairs(vector<vector<int>>& points) {
         int n = points.size(), ans = 0;
         sort(points.begin(), points.end(), cmp);
-
+        
         for(int i = 0; i < n; ++i) {
             int maxY = INT_MIN;
             for(int j = i + 1; j < n; ++j) {
