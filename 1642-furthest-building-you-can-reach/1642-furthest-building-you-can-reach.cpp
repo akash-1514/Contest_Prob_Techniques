@@ -3,24 +3,22 @@ public:
     int furthestBuilding(vector<int>& heights, int bricks, int ladders) {
         int n = heights.size();
         priority_queue<int>pq;
-        int sum = 0;
+        int ans = 0;
         for(int i = 1; i < n; ++i) {
             int diff = heights[i] - heights[i - 1];
             if(diff > 0) {
-                sum += diff;
-                pq.push(diff);
-                if(sum > bricks) {
-                    if(ladders) {
-                        sum -= pq.top();
+                pq.push(-diff);
+                if(pq.size() > ladders) {
+                    if(!pq.empty()) {
+                        bricks += pq.top();
                         pq.pop();
-                        ladders--;
-                    } 
+                    }
                 }
-                if(sum > bricks) {
-                    return i - 1;
-                }
-            } 
+            }
+            if(bricks >= 0) {
+                ans = i;
+            }
         }
-        return n - 1;
+        return ans;
     }
 };
