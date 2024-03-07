@@ -9,10 +9,8 @@ public:
                 ans.push_back({max(firstList[i][0], secondList[j][0]), min(firstList[i][1], secondList[j][1])});
             }
             
-            if(firstList[i][1] < secondList[j][1]) {
+            if(firstList[i][1] <= secondList[j][1]) {
                 i++;
-            } else if(secondList[j][1] < firstList[i][1]) {
-                j++;
             } else {
                 j++;
             }
