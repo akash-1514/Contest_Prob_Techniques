@@ -3,7 +3,7 @@ public:
     vector<int> findDiagonalOrder(vector<vector<int>>& nums) {
         int n = nums.size();
         
-        map<int, vector<int>>mp;
+        unordered_map<int, vector<int>>mp;
         for(int i = n - 1; i >= 0; --i) {
             int m = nums[i].size();
             for(int j = m - 1; j >= 0; --j) {
