@@ -14,7 +14,7 @@ public:
             } else if(secondList[j][1] < firstList[i][1]) {
                 j++;
             } else {
-                i++;
+                j++;
             }
         }
         
