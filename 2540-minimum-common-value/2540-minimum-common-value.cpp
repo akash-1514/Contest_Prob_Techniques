@@ -2,14 +2,12 @@ class Solution {
 public:
     int getCommon(vector<int>& nums1, vector<int>& nums2) {
         int n1 = nums1.size(), n2 = nums2.size();
-        int i = 0, j = 0;
-        while(i < n1 && j < n2) {
-            if(nums1[i] < nums2[j]) {
-                i++;
-            } else if(nums2[j] < nums1[i]) {
-                j++;
-            } else {
-                return nums1[i];
+        for(int i = 0; i < n1; ++i) {
+            auto it = lower_bound(nums2.begin(), nums2.end(), nums1[i]);
+            if(it != nums2.end()) {
+                if(*it == nums1[i]) {
+                    return nums1[i];
+                }
             }
         }
         return -1;
