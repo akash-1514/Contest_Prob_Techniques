@@ -23,7 +23,7 @@ public:
             if(mp.find(currSum) != mp.end()) {
                 curr = mp[currSum]->next;
                 int prefix = currSum;
-                while((prefix + curr->val) != currSum) { 
+                while(curr != NULL && (prefix + curr->val) != currSum) { 
                     mp.erase(prefix + curr->val);
                     prefix += curr->val;
                     curr = curr->next;
