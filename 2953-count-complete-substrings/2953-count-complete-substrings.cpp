@@ -1,48 +1,47 @@
 class Solution {
 public:
-    int countSubstring(string &word, int k, int len) {
-        int ans = 0, cnt = 0;
+    int countSubstring(string &s, int x, int k) {
+        if(x * k == 1) return s.size();
         unordered_map<char, int>mp;
-        int i = 0, j = 0;
-        while(j < word.size()) {
-            if(i == j) {
-                if(mp[word[j]] == k) cnt--;
-                if(++mp[word[j]] == k) cnt++;
-            } else {
-                if(abs(word[j] - word[j - 1]) > 2) {
-                    cnt = 0;
-                    while(i < j) {
-                        if(--mp[word[i]] == 0) mp.erase(word[i]);
-                        i++;
-                    }
-                    if(mp[word[j]] == k) cnt--;
-                    if(++mp[word[j]] == k) cnt++;
-                } else {
-                    if(mp[word[j]] == k) cnt--;
-                    if(++mp[word[j]] == k) cnt++;
-                }
-            }
-            
-            if(j - i + 1 == len) {
-                if(mp.size() == cnt) ans++;
-            } else if(j - i + 1 > len) {
-                while(j - i + 1 > len) {
-                    if(mp[word[i]] == k) cnt--;
-                    if(--mp[word[i]] == k) cnt++;
-                    if(mp[word[i]] == 0) mp.erase(word[i]);
+        int i = 0, cnt = 0, ans = 0;
+        mp[s[0]]++;
+        if(mp[s[0]] == k) cnt++;
+        for(int j = 1; j < s.size(); ++j) {
+            if(abs(s[j] - s[j - 1]) > 2) {
+                while(i < j) {
+                    if(mp[s[i]] == k) cnt--;
+                    if(--mp[s[i]] == k) cnt++;
+                    if(mp[s[i]] == 0) mp.erase(s[i]);
                     i++;
                 }
-                if(mp.size() == cnt) ans++;
+                mp[s[j]]++;
+                if(mp[s[j]] == k) cnt++;
+            } else {
+                if(mp[s[j]] == k) cnt--;
+                if(++mp[s[j]] == k) cnt++;
             }
-            j++;
+            
+            if(j - i + 1 == x * k) {
+                if(cnt == mp.size()) {
+                    ans++;
+                }
+            } else if(j - i + 1 > x * k) {
+                if(mp[s[i]] == k) cnt--;
+                if(--mp[s[i]] == k) cnt++;
+                if(mp[s[i]] == 0) mp.erase(s[i]);
+                i++;
+                if(cnt == mp.size()) {
+                    ans++;
+                }
+            }
         }
         return ans;
     }
     int countCompleteSubstrings(string word, int k) {
-        int ans = 0, n = word.size();
-        for(int i = k; i <= word.size() && i / k <= 26; i += k) {
-            int res = countSubstring(word, k, i);
-            ans += res;
+        int n = word.size();
+        int ans = 0;
+        for(int i = 1; i <= 26 && i * k <= n; ++i) {
+            ans += countSubstring(word, i, k);
         }
         return ans;
     }
