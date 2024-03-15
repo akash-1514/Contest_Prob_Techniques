@@ -1,33 +1,31 @@
 class Solution {
 public:
     string minWindow(string s, string t) {
-        int start = -1, end = -1, n = s.size();   
-        int mn = 1e9;
-        unordered_map<char, int>smp, tmp;
-        for(char ch : t) tmp[ch]++;
+        unordered_map<char, int> s_freq, t_freq;
+        for(char ch : t) t_freq[ch]++;
         
-        int cnt = 0, i = 0;
-        for(int j = 0; j < n; ++j) {
-            smp[s[j]]++;
-            if(tmp.find(s[j]) != tmp.end() && smp[s[j]] == tmp[s[j]]) {
-                cnt++;
-            }
-            
-            while(cnt == tmp.size()) {
-                if(j - i + 1 < mn) {
-                    mn = j - i + 1;
-                    start = i, end = j;
+        int ws = 0;
+        int ansStart = -1, ansEnd = -1, mn = 1e9;
+        int cnt = 0;
+        for(int we = 0; we < s.size(); ++we) {
+            s_freq[s[we]]++;
+            if(t_freq.find(s[we]) != t_freq.end() && s_freq[s[we]] == t_freq[s[we]]) cnt++;
+            while(cnt == t_freq.size()) {
+                // try to shrink the window
+                if(we - ws + 1 < mn) {
+                    mn = we - ws + 1;
+                    ansStart = ws, ansEnd = we;
                 }
-                if(tmp.find(s[i]) != tmp.end() && smp[s[i]] == tmp[s[i]]) {
+                if(t_freq.find(s[ws]) != t_freq.end() && s_freq[s[ws]] == t_freq[s[ws]]) {
                     cnt--;
-                }    
-                smp[s[i]]--;
-                i++;
+                }
+                
+                s_freq[s[ws]]--;
+                ws++;
             }
         }
         
-        if(start == -1) return "";
-        string res = s.substr(start, end - start + 1);
-        return res;
+        if(ansStart == -1) return "";
+        return s.substr(ansStart, ansEnd - ansStart + 1);
     }
 };
