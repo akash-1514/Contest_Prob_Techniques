@@ -19,8 +19,8 @@ public:
         for(int j = 0; j < n; ++j) {
             
             if(mark.find(j) != mark.end()) {
-                while(i <= mark[j]) {
-                    i++;
+                if(mark[j] >= i) {
+                    i = mark[j] + 1;
                 }
             }
             
