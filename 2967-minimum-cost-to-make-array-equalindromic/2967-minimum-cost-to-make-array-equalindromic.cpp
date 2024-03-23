@@ -29,8 +29,6 @@ public:
             right++;
         }
         
-        cout << left << ": " << right << "\n";
-        
         long long cost1 = 0, cost2 = 0;
         for(int i = 0; i < nums.size(); ++i) {
             cost1 += abs(nums[i] - left);
