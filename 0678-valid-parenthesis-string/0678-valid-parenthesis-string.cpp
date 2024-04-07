@@ -1,24 +1,29 @@
 class Solution {
 public:
-    int dp[101][201];
-    bool helper(string &s, int idx, int cnt) {
+    int dp[101][101];
+    bool helper(string &s, int idx, int open) {
         if(idx >= s.size()) {
-            if(cnt == 0) return true;
-            return false;
+            return open == 0;
         }
         
-        if(dp[idx][cnt] != -1) return dp[idx][cnt];
+        if(dp[idx][open] != -1) return dp[idx][open];
         
-        if(s[idx] == ')') {
-            if(cnt > 0) {
-                if(helper(s, idx + 1, cnt - 1)) return dp[idx][cnt] = true;
-            }
-        } else if(s[idx] == '(') {
-            if(helper(s, idx + 1, cnt + 1)) return dp[idx][cnt] = true;
+        bool ans = false;
+        if(s[idx] == '(') {
+            ans |= helper(s, idx + 1, open + 1);
+        } else if(s[idx] == ')') {
+            if(open > 0) {
+                ans |= helper(s, idx + 1, open - 1);
+            } 
         } else {
-            if(helper(s, idx + 1, cnt) || (cnt > 0 && helper(s, idx + 1, cnt - 1)) || helper(s, idx + 1, cnt + 1)) return dp[idx][cnt] = true;
+            ans |= helper(s, idx + 1, open + 1);
+            if(open > 0) {
+                ans |= helper(s, idx + 1, open - 1);
+            }
+            ans |= helper(s, idx + 1, open);
         }
-        return dp[idx][cnt] = false;
+        
+        return dp[idx][open] = ans;
     }
     bool checkValidString(string s) {
         memset(dp, -1, sizeof(dp));
