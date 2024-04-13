@@ -13,8 +13,7 @@ public:
         while(!pq.empty()) {
             auto tp = pq.top(); pq.pop();
             int node = tp.second, d = tp.first;
-            if(d >= disappear[node]) continue;
-            if(dist[node] < d) continue;
+            if(d >= disappear[node] || dist[node] < d) continue;
             for(auto &adj : graph[node]) {
                 int adjDist = adj.second, adjNode = adj.first;
                 if(d + adjDist < disappear[adjNode]) {
