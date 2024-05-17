@@ -16,22 +16,14 @@ public:
             return NULL;
         }
         
-        if(!root->left && !root->right) {
-            if(root->val == target) return NULL;
-            return root;
-        }
-        
-        TreeNode* left = removeLeafNodes(root->left, target);
-        TreeNode* right = removeLeafNodes(root->right, target);
+        root->left = removeLeafNodes(root->left, target);
+        root->right = removeLeafNodes(root->right, target);
 
-        if(!left && !right) {
+        if(root->left == NULL && root->right == NULL) {
             if(root->val == target) {
                 return NULL;
             }
         }
-        
-        root->left = left;
-        root->right = right;
         
         return root;
     }
