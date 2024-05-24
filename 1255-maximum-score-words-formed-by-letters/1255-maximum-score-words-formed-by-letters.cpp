@@ -1,6 +1,6 @@
 class Solution {
 public:
-    map<int, map<vector<int>, int>>dp;
+    unordered_map<int, map<vector<int>, int>>dp;
     bool isPossible(string &word, vector<int>&freq) {
         vector<int> f(26, 0);
         for(char ch : word) {
