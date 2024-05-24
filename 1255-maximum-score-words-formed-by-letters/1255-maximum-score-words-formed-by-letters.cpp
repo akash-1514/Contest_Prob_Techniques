@@ -1,6 +1,6 @@
 class Solution {
 public:
-    unordered_map<int, map<vector<int>, int>>dp;
+    // unordered_map<int, map<vector<int>, int>>dp;
     bool isPossible(string &word, vector<int>&freq) {
         vector<int> f(26, 0);
         for(char ch : word) {
@@ -20,9 +20,9 @@ public:
             return 0;
         }
         
-        if(dp.find(idx) != dp.end() && dp[idx].find(freq) != dp[idx].end()) {
-            return dp[idx][freq];
-        }
+        // if(dp.find(idx) != dp.end() && dp[idx].find(freq) != dp[idx].end()) {
+        //     return dp[idx][freq];
+        // }
         
         int mx = 0;
         
@@ -35,7 +35,7 @@ public:
         }
         
         mx = max(mx, helper(vec, idx + 1, freq));
-        return dp[idx][freq] = mx;
+        return mx;
     }
     int maxScoreWords(vector<string>& words, vector<char>& letters, vector<int>& score) {
         vector<pair<int, string>> vec;
