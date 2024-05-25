@@ -4,6 +4,8 @@ public:
     int helper(int k, int i, int jump, bool fl) {
         if(i > k + 1) return 0;
         
+        if(jump > 31) return 0;
+        
         string state = to_string(i) + "," + to_string(jump) + "," + to_string(fl);
         
         if(dp.find(state) != dp.end()) {
