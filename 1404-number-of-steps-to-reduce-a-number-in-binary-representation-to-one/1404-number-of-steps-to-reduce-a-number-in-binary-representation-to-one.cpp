@@ -9,7 +9,7 @@ public:
     }
     int numSteps(string s) {
         int ans = 0;
-        while(!isOne(s)) {
+        while(s.size() != 1) {
             if(s[s.size() - 1] == '1') {
                 int idx = -1;
                 string res = "1";
