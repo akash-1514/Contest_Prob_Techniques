@@ -1,12 +1,5 @@
 class Solution {
 public:
-    bool isOne(string &s) {
-        int cnt = 0;
-        for(char ch : s) {
-            cnt += (ch == '1');
-        }
-        return (cnt == 1 && (s[s.size() - 1] == '1'));
-    }
     int numSteps(string s) {
         int ans = 0;
         while(s.size() != 1) {
