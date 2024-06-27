@@ -1,13 +1,6 @@
 class Solution {
 public:
     int findCenter(vector<vector<int>>& edges) {
-        vector<int> firstEdge = edges[0];
-        vector<int> secondEdge = edges[1];
-        
-        if(firstEdge[0] == secondEdge[0] || firstEdge[0] == secondEdge[1]) {
-            return firstEdge[0];
-        } else {
-            return firstEdge[1];
-        }
+        return (edges[0][0] == edges[1][0] || edges[0][0] == edges[1][1]) ? edges[0][0] : edges[0][1];
     }
 };
