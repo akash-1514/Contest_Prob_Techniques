@@ -1,52 +1,33 @@
 class Solution {
+    typedef pair<int, int> PII;
 public:
-    int mod = 1e9 + 7;
-    int dfs(int n, vector<pair<int, int>> graph[], int src, vector<int>&dist, vector<int>&dp) {
-        if(src == n) {
-            return 1;
+    int countRestrictedPaths(int n, vector<vector<int>>& E) {
+        long mod = 1e9 + 7;
+        vector<vector<pair<long, int>>> G(n);
+        for (auto &e : E) {
+            int u = e[0] - 1, v = e[1] - 1, w = e[2];
+            G[u].emplace_back(v, w);
+            G[v].emplace_back(u, w);
         }
-        
-        if(dp[src] != -1) return dp[src];
-        
-        int ans = 0;
-        for(auto &adj : graph[src]) {
-            int adjNode = adj.first, edgeLen = adj.second;
-            if(dist[adjNode] < dist[src]) {
-                ans = (ans + dfs(n, graph, adjNode, dist, dp)) % mod;
-            }
-        }
-        return dp[src] = ans;
-    }
-    int countRestrictedPaths(int n, vector<vector<int>>& edges) {
-        vector<pair<int, int>> graph[n + 1];
-        for(auto &e : edges) {
-            graph[e[0]].push_back({e[1], e[2]});
-            graph[e[1]].push_back({e[0], e[2]});
-        }
-        
-        vector<int> dist(n + 1, INT_MAX);
-        priority_queue<pair<int, int>, vector<pair<int, int>>, greater<pair<int, int>>>pq;
-        
-        pq.push({0, n});
-        dist[n] = 0;
-        
-        while(!pq.empty()) {
-            auto front = pq.top(); 
+        priority_queue<PII, vector<PII>, greater<PII>> pq;
+        vector<long> dist(n, INT_MAX), cnt(n, 0);
+        dist[n - 1] = 0;
+        cnt[n - 1] = 1;
+        pq.emplace(0, n - 1);
+        while (pq.size()) {
+            auto [w, u] = pq.top();
             pq.pop();
-            
-            int node = front.second, distance = front.first;
-            
-            if(dist[node] < distance) continue;
-            
-            for(auto &adj : graph[node]) {
-                int adjNode = adj.first, d = adj.second;
-                if(dist[adjNode] > d + distance) {
-                    dist[adjNode] = d + distance;
-                    pq.push({dist[adjNode], adjNode});
+            if (w > dist[u]) continue;
+            for (auto &[v, d] : G[u]) {
+                if (dist[v] > w + d) {
+                    dist[v] = w + d;
+                    pq.emplace(dist[v], v);
+                }
+                if (w < dist[v]) {
+                    cnt[v] = (cnt[v] + cnt[u]) % mod;
                 }
             }
         }
-        vector<int> dp(n + 1, -1);
-        return dfs(n, graph, 1, dist, dp);
+        return cnt[0];
     }
 };
