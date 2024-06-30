@@ -1,7 +1,9 @@
 class DSU {
 public:
 	vector<int> rank, size, parent;
+    int components;
 	DSU(int n) {
+        components = n;
 		rank.resize(n + 1, 0);
 		size.resize(n + 1);
 		parent.resize(n + 1, 0);
@@ -20,6 +22,7 @@ public:
 		int par_u = findPar(u);
 		int par_v = findPar(v);
 		if (par_u == par_v) return;
+        components--;
 		int rank_u = rank[par_u];
 		int rank_v = rank[par_v];
 		if (rank_v == rank_u) {
@@ -90,18 +93,7 @@ public:
             }
         }
         
-        int countComponents1 = 0, countComponents2 = 0;
-        for(int i = 1; i <= n; ++i) {
-            if(ds1.parent[i] == i) {
-                countComponents1++;
-            }
-            
-            if(ds2.parent[i] == i) {
-                countComponents2++;
-            }
-        }
-        
-        if(countComponents1 > 1 || countComponents2 > 1) {
+        if(ds1.components > 1 || ds2.components > 1) {
             return -1;
         }
         
