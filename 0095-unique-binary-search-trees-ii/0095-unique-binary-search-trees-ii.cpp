@@ -11,28 +11,28 @@
  */
 class Solution {
 public:
-    vector<TreeNode*> helper(vector<int>&arr, int low, int high) {
-        if(low > high) return {NULL};
+    vector<TreeNode*> helper(int low, int high) {
+        if(low > high) {
+            return {NULL};
+        }
         
-        vector<TreeNode*> res;
-        for(int i = low; i <= high; ++i) {
-            vector<TreeNode*> left = helper(arr, low, i - 1);
-            vector<TreeNode*> right = helper(arr, i + 1, high);
-            for(int j = 0; j < left.size(); ++j) {
-                for(int k = 0; k < right.size(); ++k) {
-                    TreeNode* root = new TreeNode(arr[i]);
-                    root->left = left[j];
-                    root->right = right[k];
-                    res.push_back(root);
+        vector<TreeNode*> vec;
+        for(int k = low; k <= high; ++k) {
+            vector<TreeNode*> left = helper(low, k - 1);
+            vector<TreeNode*> right = helper(k + 1, high);
+            
+            for(int i = 0; i < left.size(); ++i) {
+                for(int j = 0; j < right.size(); ++j) {
+                    TreeNode* root = new TreeNode(k);
+                    root->left = left[i];
+                    root->right = right[j];
+                    vec.push_back(root);
                 }
             }
         }
-        
-        return res;
+        return vec;
     }
     vector<TreeNode*> generateTrees(int n) {
-        vector<int> vec;
-        for(int i = 1; i <= n; ++i) vec.push_back(i);
-        return helper(vec, 0, n - 1);
+        return helper(1, n);
     }
 };
