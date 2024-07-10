@@ -23,6 +23,8 @@ public:
             ans |= helper(s, p, i, j + 1);
         } else if(s[i] == p[j] || p[j] == '?') {
             ans |= helper(s, p, i + 1, j + 1);
+        } else if(s[i] != p[j]) {
+            return dp[i][j] = false;
         }
         
         return dp[i][j] = ans;
