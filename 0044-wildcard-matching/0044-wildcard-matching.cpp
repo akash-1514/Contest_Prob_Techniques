@@ -1,33 +1,39 @@
 class Solution {
 public:
-    int dp[2001][2001];
-    bool helper(string &s, string &p, int i, int j) {
-        if(j >= p.size() && i >= s.size()) return true;
-        if(j >= p.size()) return false;
-        if(i >= s.size()) {
-            bool fl = true;
-            for(int k = j; k < p.size(); ++k) {
-                if(p[k] != '*') {
-                    fl = false;
-                    break;
-                }
+    vector<vector<int>>dp;
+    bool helper(string &s, string &p, int idx1, int idx2) {
+        if(idx1 == s.size() && idx2 == p.size()) return true;
+        if(idx1 == s.size()) {
+            for(int i = idx2; i < p.size(); ++i) {
+                if(p[i] != '*') return false;
             }
-            return fl;
+            return true;
+        }
+        if(idx2 == p.size()) {
+            return false;
         }
         
-        if(dp[i][j] != -1) return dp[i][j];
+        if(dp[idx1][idx2] != -1) return dp[idx1][idx2];
         
-        if(p[j] == '*') {
-            if(helper(s, p, i + 1, j)) return dp[i][j] = true;
-            if(helper(s, p, i, j + 1)) return dp[i][j] = true;
-        } else if(s[i] == p[j] || p[j] == '?') {
-            if(helper(s, p, i + 1, j + 1)) return dp[i][j] = true;
+        if(p[idx2] == '*' || p[idx2] == '?') {
+            if(p[idx2] == '*') {
+                if(helper(s, p, idx1, idx2 + 1)) return true;
+                if(helper(s, p, idx1 + 1, idx2)) return true;
+            } else {
+                if(helper(s, p, idx1 + 1, idx2 + 1)) return dp[idx1][idx2] = true;
+            }
+        } else {
+            if(p[idx2] == s[idx1]) {
+                if(helper(s, p, idx1 + 1, idx2 + 1)) return dp[idx1][idx2] = true;
+            } else {
+                return dp[idx1][idx2] = false;
+            }
         }
-        
-        return dp[i][j] = false;
+        return dp[idx1][idx2] = false;
     }
     bool isMatch(string s, string p) {
-        memset(dp, -1, sizeof(dp));
+        int n = s.size(), m = p.size();
+        dp.resize(n, vector<int>(m, -1));
         return helper(s, p, 0, 0);
     }
 };
