@@ -1,39 +1,34 @@
 class Solution {
 public:
-    vector<vector<int>>dp;
-    bool helper(string &s, string &p, int idx1, int idx2) {
-        if(idx1 == s.size() && idx2 == p.size()) return true;
-        if(idx1 == s.size()) {
-            for(int i = idx2; i < p.size(); ++i) {
-                if(p[i] != '*') return false;
+    int dp[2001][2001];
+    bool helper(string &s, string &p, int i, int j) {
+        if(j >= p.size() && i >= s.size()) return true;
+        if(j >= p.size()) return false;
+        if(i >= s.size()) {
+            bool fl = true;
+            for(int k = j; k < p.size(); ++k) {
+                if(p[k] != '*') {
+                    fl = false;
+                    break;
+                }
             }
-            return true;
-        }
-        if(idx2 == p.size()) {
-            return false;
+            return fl;
         }
         
-        if(dp[idx1][idx2] != -1) return dp[idx1][idx2];
+        if(dp[i][j] != -1) return dp[i][j];
         
-        if(p[idx2] == '*' || p[idx2] == '?') {
-            if(p[idx2] == '*') {
-                if(helper(s, p, idx1, idx2 + 1)) return true;
-                if(helper(s, p, idx1 + 1, idx2)) return true;
-            } else {
-                if(helper(s, p, idx1 + 1, idx2 + 1)) return dp[idx1][idx2] = true;
-            }
-        } else {
-            if(p[idx2] == s[idx1]) {
-                if(helper(s, p, idx1 + 1, idx2 + 1)) return dp[idx1][idx2] = true;
-            } else {
-                return dp[idx1][idx2] = false;
-            }
+        bool ans = false;
+        if(p[j] == '*') {
+            ans |= helper(s, p, i + 1, j);
+            ans |= helper(s, p, i, j + 1);
+        } else if(s[i] == p[j] || p[j] == '?') {
+            ans |= helper(s, p, i + 1, j + 1);
         }
-        return dp[idx1][idx2] = false;
+        
+        return dp[i][j] = ans;
     }
     bool isMatch(string s, string p) {
-        int n = s.size(), m = p.size();
-        dp.resize(n, vector<int>(m, -1));
+        memset(dp, -1, sizeof(dp));
         return helper(s, p, 0, 0);
     }
 };
