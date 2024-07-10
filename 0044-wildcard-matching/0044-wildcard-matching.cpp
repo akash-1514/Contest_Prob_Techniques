@@ -17,17 +17,14 @@ public:
         
         if(dp[i][j] != -1) return dp[i][j];
         
-        bool ans = false;
         if(p[j] == '*') {
-            ans |= helper(s, p, i + 1, j);
-            ans |= helper(s, p, i, j + 1);
+            if(helper(s, p, i + 1, j)) return dp[i][j] = true;
+            if(helper(s, p, i, j + 1)) return dp[i][j] = true;
         } else if(s[i] == p[j] || p[j] == '?') {
-            ans |= helper(s, p, i + 1, j + 1);
-        } else if(s[i] != p[j]) {
-            return dp[i][j] = false;
+            if(helper(s, p, i + 1, j + 1)) return dp[i][j] = true;
         }
         
-        return dp[i][j] = ans;
+        return dp[i][j] = false;
     }
     bool isMatch(string s, string p) {
         memset(dp, -1, sizeof(dp));
