@@ -1,17 +1,17 @@
 class Solution {
 public:
     int minOperations(vector<string>& logs) {
-        stack<char>st;
+        int cnt = 0;
         for(auto &s : logs) {
             string sub = s.substr(0, 2);
             if(sub == "./") continue;
             if(sub == "..") {
-                if(!st.empty()) st.pop();
+                if(cnt > 0) cnt--;
             } else {
-                st.push('f');
+                cnt++;
             }
         }
         
-        return st.size();
+        return cnt;
     }
 };
