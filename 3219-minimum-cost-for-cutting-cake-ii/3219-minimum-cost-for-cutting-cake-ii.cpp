@@ -1,23 +1,39 @@
 class Solution {
 public:
-    long long minimumCost(int m, int n, vector<int>&h, vector<int>& v) {
-        sort(h.begin(), h.end());
-        sort(v.begin(), v.end());
-        long long sumH = 0, sumV = 0, res = 0;
-        for (int x : h) sumH += x;
-        for (int x : v) sumV += x;
-
-        int i = h.size() - 1, j = v.size() - 1;
-        while (i >= 0 && j >= 0) {
-            if (h[i] > v[j]) {
-                res += h[i] + sumV;
-                sumH -= h[i--];
+    long long minimumCost(int m, int n, vector<int>&X, vector<int>& Y) {
+        long long hsum = 0, vsum = 0;
+        for(int ele : X) {
+            hsum += ele;
+        }
+        
+        for(int ele : Y) {
+            vsum += ele;
+        }
+        
+        sort(X.begin(), X.end());
+        sort(Y.begin(), Y.end());
+        
+        long long ans = 0;
+        
+        int i = X.size() - 1, j = Y.size() - 1;
+        while(i >= 0 && j >= 0) {
+            if(X[i] > Y[j]) {
+                ans += (X[i] + vsum);
+                hsum -= X[i--];
             } else {
-                res += v[j] + sumH;
-                sumV -= v[j--];
+                ans += (Y[j] + hsum);
+                vsum -= Y[j--];
             }
         }
         
-        return res + sumH + sumV;
+        while(i >= 0) {
+            ans += X[i--];
+        }
+    
+        while(j >= 0) {
+            ans += Y[j--];
+        }
+        
+        return ans;
     }
 };
