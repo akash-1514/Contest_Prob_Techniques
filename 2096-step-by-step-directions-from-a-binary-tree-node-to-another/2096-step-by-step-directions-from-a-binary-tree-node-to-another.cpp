@@ -25,7 +25,9 @@ public:
     }
     
     void dfs(TreeNode* root, int sv, int ev, int depth, int &d, string &path, string &destPath) {
+        
         if(root == NULL) return;
+        
         if(root->val == ev) {
             destPath = path;
         }
