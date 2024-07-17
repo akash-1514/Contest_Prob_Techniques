@@ -10,28 +10,48 @@
  * };
  */
 class Solution {
-private:
-    unordered_map<int, int> mp;
 public:
-    TreeNode* dfs(TreeNode* root, vector<TreeNode*>&ans) {
-        if(!root) return NULL;
-        
-        root->left = dfs(root->left, ans);
-        root->right = dfs(root->right, ans);
-        
-        if(mp.find(root->val) != mp.end()) {
-            if(root->left != NULL) ans.push_back(root->left);
-            if(root->right != NULL) ans.push_back(root->right);
-            return NULL;
-        } else {
-            return root;
-        }
-    }
     vector<TreeNode*> delNodes(TreeNode* root, vector<int>& to_delete) {
-        vector<TreeNode*> ans;
+        queue<TreeNode*>q;
+        unordered_map<int, int>mp;
         for(int ele : to_delete) mp[ele]++;
-        TreeNode* res = dfs(root, ans);
-        if(res != NULL) ans.push_back(res);
+        
+        vector<TreeNode*>ans;
+        
+        q.push(root);
+        
+        while(!q.empty()) {
+            auto front = q.front(); q.pop();
+            // presenting the idea of postorder traversal into bfs
+            // left right root
+            
+            // left
+            if(front->left) {
+                q.push(front->left);
+                if(mp.find(front->left->val) != mp.end()) {
+                    front->left = NULL;
+                }
+            }
+            
+            // right
+            if(front->right) {
+                q.push(front->right);
+                if(mp.find(front->right->val) != mp.end()) {
+                    front->right = NULL;
+                }
+            }
+            
+            if(mp.find(front->val) != mp.end()) {
+                if(front->left) ans.push_back(front->left);
+                if(front->right) ans.push_back(front->right);
+            }
+        }
+        
+        if(mp.find(root->val) == mp.end()) {
+            ans.push_back(root);
+        }
+
+        
         return ans;
     }
 };
