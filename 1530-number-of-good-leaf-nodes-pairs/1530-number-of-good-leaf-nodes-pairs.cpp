@@ -32,15 +32,16 @@ public:
             }
         }
         
-        for(int i = 0; i < left.size(); ++i) {
-            for(int j = 0; j < right.size(); ++j) {
-                if(left[i] + right[j] <= distance) {
-                    ans++;
-                }
+        i = left.size() - 1, j = 0;
+        
+        while(i >= 0) {
+            if(j < right.size() && left[i] + right[j] <= distance) {
+                j++;
+            } else {
+                ans += j;
+                i--;
             }
         }
-       
-        // for(int ele : )
         
         return merge;
     }
