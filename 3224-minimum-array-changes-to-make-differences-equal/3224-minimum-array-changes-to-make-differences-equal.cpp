@@ -14,8 +14,6 @@ public:
             int l = min((nums[i] - min(k, nums[i])), (nums[n - i - 1] - min(k, nums[n - i - 1])));
             int r = max({nums[i], nums[n - i - 1], abs(nums[i] - k), abs(nums[n - i - 1] - k)});
             
-            // cout << l << " " << r << "\n";
-            
             diff[l]++;
             diff[r + 1]--;
         }
