@@ -1,32 +1,20 @@
 class Solution {
-private:
-    unordered_map<int, int>mp;
 public:
-    int convert(string &s) {
+    int convert(string &s, vector<int>&mapping) {
         int res = 0;
         for(char ch : s) {
-            res = res * 10 + (mp[ch - '0']);
+            res = res * 10 + (mapping[ch - '0']);
         }
         return res;
-    }
-    
-    static bool cmp(pair<int, int>&a, pair<int, int>&b) {
-        if(a.first == b.first) {
-            return a.second < b.second;
-        }
-        return a.first < b.first;
     }
 
     vector<int> sortJumbled(vector<int>& mapping, vector<int>& nums) {
         int n = nums.size();
-        for(int i = 0; i <= 9; ++i) {
-            mp[i] = mapping[i];
-        }
         
         vector<pair<int, int>>vec;
         for(int i = 0; i < n; ++i) {
             string str = to_string(nums[i]);
-            int changed = convert(str);
+            int changed = convert(str, mapping);
             vec.push_back({changed, i});
         }
         
