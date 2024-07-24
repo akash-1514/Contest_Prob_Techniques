@@ -30,7 +30,12 @@ public:
             vec.push_back({changed, i});
         }
         
-        sort(vec.begin(), vec.end(), cmp);
+        sort(vec.begin(), vec.end(), [&](pair<int, int>&a, pair<int, int>&b) {
+            if(a.first == b.first) {
+                return a.second < b.second;
+            } 
+            return a.first < b.first;
+        });
         
         vector<int>ans;
         for(int i = 0; i < n; ++i) {
