@@ -2,10 +2,16 @@ class Solution {
 public:
     int findPartition(vector<int>&nums, int start, int end) {
         int pivot = nums[start];
+        
         int i = start, j = end;
         while(i < j) {
-            while(i < end && nums[i] <= pivot) i++;
-            while(j > start && nums[j] > pivot) j--;
+            while(i < end && nums[i] <= pivot) {
+                i++;
+            }
+            
+            while(j > start && nums[j] > pivot) {
+                j--;
+            }
             
             if(i < j) {
                 swap(nums[i], nums[j]);
