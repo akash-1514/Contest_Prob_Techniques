@@ -1,15 +1,15 @@
 class Solution {
 public:
     int findPartition(vector<int>&nums, int start, int end) {
-        int pivot = nums[start];
+        int pivot = nums[end];
         
         int i = start, j = end;
         while(i < j) {
-            while(i < end && nums[i] <= pivot) {
+            while(i < end && nums[i] < pivot) {
                 i++;
             }
             
-            while(j > start && nums[j] > pivot) {
+            while(j > start && nums[j] >= pivot) {
                 j--;
             }
             
@@ -18,8 +18,8 @@ public:
             }
         }
         
-        swap(nums[start], nums[j]);
-        return j;
+        swap(nums[end], nums[i]);
+        return i;
     }
     
     void quickSort(vector<int>&nums, int start, int end) {
